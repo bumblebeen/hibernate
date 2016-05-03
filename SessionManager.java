@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by arcilla on 4/29/16.
  */
-public class MovieManager {
+public class SessionManager {
     private SessionFactory sessionFactory = null;
     // Creating SessionFactory using 4.2 version of Hibernate
 
@@ -24,11 +24,29 @@ public class MovieManager {
         sessionFactory = config.buildSessionFactory(serviceRegistry);
     }
 
-    public void persistAMovie(Movie m) {
+    public void persistAMovie() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
 
+        Movie m = new Movie();
+        m.setId(10);
+        m.setTitle("Civil WarTut");
+        m.setDirector("Bogart the Explorer");
+        m.setSynopsis("One of the major war in the Marvel universe");
+
         session.save(m);
+        session.getTransaction().commit();
+    }
+
+    public void persistTrade() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        Trade t = new Trade();
+        t.setQuantity(1);
+        t.setSecure("secured");
+
+        session.save(t);
         session.getTransaction().commit();
     }
 
