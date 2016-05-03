@@ -31,11 +31,11 @@ public class SessionManager {
 
         Movie m = new Movie();
         m.setId(10);
-        m.setTitle("Civil WarTut");
+        m.setTitle("Civil War");
         m.setDirector("Bogart the Explorer");
         m.setSynopsis("One of the major war in the Marvel universe");
 
-        session.save(m);
+        session.saveOrUpdate(m);
         session.getTransaction().commit();
     }
 

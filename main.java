@@ -10,7 +10,7 @@ public class main {
         sm.initSessionFactory();
         System.out.println("Initialized!");
 
-        sm.persistEmployee();
+        sm.persistAMovie();
 
         System.out.println("Saved!");
 
