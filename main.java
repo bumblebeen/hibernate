@@ -10,7 +10,7 @@ public class main {
         sm.initSessionFactory();
         System.out.println("Initialized!");
 
-        sm.persistTrade();
+        sm.persistEmployee();
 
         System.out.println("Saved!");
 

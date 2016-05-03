@@ -16,7 +16,8 @@ public class SessionManager {
     // Creating SessionFactory using 4.2 version of Hibernate
 
     public void initSessionFactory(){
-        Configuration config = new Configuration().configure();
+        Configuration config = new Configuration().configure()
+                .addAnnotatedClass(Employee.class);
         // Build a Registry with our configuration properties
         ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(
                 config.getProperties()).buildServiceRegistry();
@@ -50,15 +51,26 @@ public class SessionManager {
         session.getTransaction().commit();
     }
 
+    public void persistEmployee() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        Employee e = new Employee();
+        e.setName("Marvin Arcilla");
+
+        session.save(e);
+        session.getTransaction().commit();
+    }
+
     public void findAll() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Movie> trades = session.createQuery("from Movie").list();
+        List<Employee> trades = session.createQuery("from Employee").list();
         session.getTransaction().commit();
         System.out.println("All Trades:" + trades.size());
 
         for (int i = 0; i< trades.size(); ++i) {
-            System.out.println("Trade: " + trades.get(i).getTitle());
+            System.out.println("Trade: " + trades.get(i).getName());
         }
     }
 
