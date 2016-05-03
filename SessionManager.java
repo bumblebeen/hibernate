@@ -17,7 +17,11 @@ public class SessionManager {
 
     public void initSessionFactory(){
         Configuration config = new Configuration().configure()
-                .addAnnotatedClass(Employee.class);
+                .addAnnotatedClass(Employee.class)
+                .addAnnotatedClass(Course.class)
+                .addAnnotatedClass(CoursePK.class)
+                .addAnnotatedClass(Course2.class)
+                .addAnnotatedClass(CoursePK2.class);
         // Build a Registry with our configuration properties
         ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(
                 config.getProperties()).buildServiceRegistry();
@@ -72,15 +76,61 @@ public class SessionManager {
         session.getTransaction().commit();
     }
 
+    public void persistCourse() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        Course c = new Course();
+        CoursePK cpk = new CoursePK();
+        cpk.setTitle("Hibernate 101");
+        cpk.setTutor("Marvin Arcilla");
+
+        c.setId(cpk);
+        c.setTotalStudents(8);
+        c.setRegisteredStudents(10);
+
+        session.save(c);
+        session.getTransaction().commit();
+    }
+
+    public void deleteCourse() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        CoursePK cpk = new CoursePK();
+        cpk.setTitle("Hibernate 101");
+        cpk.setTutor("Marvin Arcilla");
+        Course c = (Course)session.load(Course.class, cpk);
+
+        session.delete(c);
+        session.getTransaction().commit();
+    }
+
+    public void persistCourse2() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        Course2 c = new Course2("Computer Science", "Marvin Arcilla");
+        CoursePK2 cpk = new CoursePK2();
+        cpk.setTitle("Hibernate 102");
+        cpk.setTutor("Marvin Arcilla");
+
+        c.setTotalStudents(20);
+        c.setRegisteredStudents(30);
+
+        session.save(c);
+        session.getTransaction().commit();
+    }
+
     public void findAll() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Movie> trades = session.createQuery("from Movie").list();
+        List<Course2> trades = session.createQuery("from Course2").list();
         session.getTransaction().commit();
         System.out.println("All Trades:" + trades.size());
 
         for (int i = 0; i< trades.size(); ++i) {
-            System.out.println("Movie: " + trades.get(i).getTitle());
+            System.out.println("Movie: " + trades.get(i).getRegisteredStudents());
         }
     }
 

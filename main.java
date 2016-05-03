@@ -10,18 +10,8 @@ public class main {
         sm.initSessionFactory();
         System.out.println("Initialized!");
 
-        sm.persistAMovie();
+        sm.persistCourse2();
 
         System.out.println("Saved!");
-
-        sm.findAll();
-
-        System.out.println("Deleting!");
-
-        sm.deleteAMovie();
-
-        System.out.println("Deleted!");
-
-        sm.findAll();
     }
 }
