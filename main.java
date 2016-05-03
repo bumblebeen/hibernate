@@ -15,5 +15,13 @@ public class main {
         System.out.println("Saved!");
 
         sm.findAll();
+
+        System.out.println("Deleting!");
+
+        sm.deleteAMovie();
+
+        System.out.println("Deleted!");
+
+        sm.findAll();
     }
 }
