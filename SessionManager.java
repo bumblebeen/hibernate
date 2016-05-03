@@ -30,12 +30,22 @@ public class SessionManager {
         session.beginTransaction();
 
         Movie m = new Movie();
-        m.setId(10);
-        m.setTitle("Civil WarTut");
-        m.setDirector("Bogart the Explorer");
-        m.setSynopsis("One of the major war in the Marvel universe");
+        m.setId(11);
+        m.setTitle("Jungle Book");
+        m.setDirector("Boots the Explorer");
+        m.setSynopsis("Hey Kid");
 
-        session.save(m);
+        session.saveOrUpdate(m);
+        session.getTransaction().commit();
+    }
+
+    public void deleteAMovie() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        Movie m = (Movie)session.load(Movie.class, new Integer(11));
+
+        session.delete(m);
         session.getTransaction().commit();
     }
 
@@ -65,12 +75,12 @@ public class SessionManager {
     public void findAll() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Employee> trades = session.createQuery("from Employee").list();
+        List<Movie> trades = session.createQuery("from Movie").list();
         session.getTransaction().commit();
         System.out.println("All Trades:" + trades.size());
 
         for (int i = 0; i< trades.size(); ++i) {
-            System.out.println("Trade: " + trades.get(i).getName());
+            System.out.println("Movie: " + trades.get(i).getTitle());
         }
     }
 

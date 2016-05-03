@@ -10,9 +10,17 @@ public class main {
         sm.initSessionFactory();
         System.out.println("Initialized!");
 
-        sm.persistEmployee();
+        sm.persistAMovie();
 
         System.out.println("Saved!");
+
+        sm.findAll();
+
+        System.out.println("Deleting!");
+
+        sm.deleteAMovie();
+
+        System.out.println("Deleted!");
 
         sm.findAll();
     }
