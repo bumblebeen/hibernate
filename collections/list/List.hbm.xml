@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="hibernate.collections.list.Showroom" table="SHOWROOM_LIST">
+        <id name="id" column="SHOWROOM_ID">
+            <generator class="native"/>
+        </id>
+        <list name="cars" cascade="all" table="CARS_LIST">
+            <key column="SHOWROOM_ID"/>
+            <index column="CAR_INDEX"/>
+            <one-to-many class="hibernate.collections.list.Car"/>
+        </list>
+        <property name="manager" />
+        <property name="location" />
+    </class>
+
+    <class name="hibernate.collections.list.Car" table="CARS_LIST">
+        <id name="id" column="CAR_ID">
+            <generator class="native"/>
+        </id>
+        <property name="name" />
+        <property name="color" />
+    </class>
+</hibernate-mapping>

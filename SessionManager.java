@@ -1,11 +1,14 @@
 package hibernate;
 
+import hibernate.collections.list.Car;
+import hibernate.collections.list.Showroom;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -119,6 +122,27 @@ public class SessionManager {
         c.setRegisteredStudents(30);
 
         session.save(c);
+        session.getTransaction().commit();
+    }
+
+    public void persistShowroom() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        Showroom showroom = new Showroom();
+        showroom.setLocation("East Croydon, Greater London");
+        showroom.setManager("Barry Larry");
+        // Create list of cars
+        List<Car> cars = new ArrayList<Car>();
+        cars.add(new Car("Toyota", "Racing Green"));
+        cars.add(new Car("Toyota", "Racing Green"));
+        cars.add(new Car("Nissan", "White"));
+        cars.add(new Car("BMW", "Black"));
+        cars.add(new Car("Mercedes", "Silver"));
+        // Associate cars to the showroom
+        showroom.setCars(cars);
+        // Save the showroom
+        session.save(showroom);
         session.getTransaction().commit();
     }
 
