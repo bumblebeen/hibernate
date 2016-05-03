@@ -1,7 +1,7 @@
 package hibernate;
 
-import hibernate.collections.list.Car;
-import hibernate.collections.list.Showroom;
+import hibernate.collections.listAnnotation.Car;
+import hibernate.collections.listAnnotation.Showroom;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -24,7 +24,9 @@ public class SessionManager {
                 .addAnnotatedClass(Course.class)
                 .addAnnotatedClass(CoursePK.class)
                 .addAnnotatedClass(Course2.class)
-                .addAnnotatedClass(CoursePK2.class);
+                .addAnnotatedClass(CoursePK2.class)
+                .addAnnotatedClass(Showroom.class)
+                .addAnnotatedClass(Car.class);
         // Build a Registry with our configuration properties
         ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(
                 config.getProperties()).buildServiceRegistry();
@@ -133,7 +135,7 @@ public class SessionManager {
         showroom.setLocation("East Croydon, Greater London");
         showroom.setManager("Barry Larry");
         // Create list of cars
-        List<Car> cars = new ArrayList<Car>();
+        List<Car> cars = new ArrayList<>();
         cars.add(new Car("Toyota", "Racing Green"));
         cars.add(new Car("Toyota", "Racing Green"));
         cars.add(new Car("Nissan", "White"));
@@ -149,12 +151,12 @@ public class SessionManager {
     public void findAll() {
         Session session = sessionFactory.getCurrentSession();
         session.beginTransaction();
-        List<Course2> trades = session.createQuery("from Course2").list();
+        List<Car> trades = session.createQuery("from Car").list();
         session.getTransaction().commit();
         System.out.println("All Trades:" + trades.size());
 
         for (int i = 0; i< trades.size(); ++i) {
-            System.out.println("Movie: " + trades.get(i).getRegisteredStudents());
+            System.out.println("Movie: " + trades.get(i).getName());
         }
     }
 
