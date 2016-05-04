@@ -17,9 +17,6 @@ public class Vendor {
     @Column(name = "VENDOR_NAME")
     private String vendorName;
 
-    @OneToMany(fetch=FetchType.LAZY, targetEntity=Customers.class, cascade= CascadeType.ALL)
-    @JoinColumn(name = "VENDOR_ID", referencedColumnName="VENDOR_ID")
-    private Set customers;
 
     public int getVendorId() {
         return vendorId;
@@ -35,13 +32,5 @@ public class Vendor {
 
     public void setVendorName(String vendorName) {
         this.vendorName = vendorName;
-    }
-
-    public Set getCustomers() {
-        return customers;
-    }
-
-    public void setCustomers(Set customers) {
-        this.customers = customers;
     }
 }

@@ -188,18 +188,16 @@ public class SessionManager {
         Customers c1=new Customers();
         c1.setCustomerId(500);
         c1.setCustomerName("customer1");
+        c1.setVendors(v);
 
         Customers c2=new Customers();
         c2.setCustomerId(501);
-        c2.setCustomerName("customer2");
+        c2.setCustomerName("The Marb");
+        c2.setVendors(v);
 
-        Set s=new HashSet();
-        s.add(c1);
-        s.add(c2);
-
-        v.setCustomers(s);
         // Save the showroom
-        session.save(v);
+        session.save(c1);
+        session.save(c2);
         session.getTransaction().commit();
     }
 
