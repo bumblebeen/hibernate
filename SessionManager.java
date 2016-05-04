@@ -2,6 +2,8 @@ package hibernate;
 
 import hibernate.associations.Address;
 import hibernate.associations.Student;
+import hibernate.associations.mtm.Categories;
+import hibernate.associations.mtm.Items;
 import hibernate.associations.otm.Customers;
 import hibernate.associations.otm.Vendor;
 import hibernate.collections.listAnnotation.Car;
@@ -36,7 +38,9 @@ public class SessionManager {
                 .addAnnotatedClass(Student.class)
                 .addAnnotatedClass(Address.class)
                 .addAnnotatedClass(Vendor.class)
-                .addAnnotatedClass(Customers.class);
+                .addAnnotatedClass(Customers.class)
+                .addAnnotatedClass(Categories.class)
+                .addAnnotatedClass(Items.class);
         // Build a Registry with our configuration properties
         ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(
                 config.getProperties()).buildServiceRegistry();
@@ -201,6 +205,40 @@ public class SessionManager {
         session.getTransaction().commit();
     }
 
+    public void persistItemsAndCategories() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        Categories c1 = new Categories();
+        c1.setCategoryId(1);
+        c1.setCategoryName("cat 1");
+
+        Categories c2=new Categories();
+        c2.setCategoryId(2);
+        c2.setCategoryName("cat 2");
+
+        Items i1=new Items();
+        Items i2 = new Items();
+
+        i1.setItemId(101);
+        i1.setItemName("item1");
+
+        i2.setItemId(102);
+        i2.setItemName("item2");
+
+        Set s =new HashSet();
+        s.add(i1);
+        s.add(i2);
+
+        c1.setItems(s);
+        c2.setItems(s);
+
+
+        // Save the showroom
+        session.save(c1);
+        session.save(c2);
+        session.getTransaction().commit();
+    }
 
     public void findAll() {
         Session session = sessionFactory.getCurrentSession();
