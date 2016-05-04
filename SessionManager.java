@@ -2,6 +2,8 @@ package hibernate;
 
 import hibernate.associations.Address;
 import hibernate.associations.Student;
+import hibernate.associations.otm.Customers;
+import hibernate.associations.otm.Vendor;
 import hibernate.collections.listAnnotation.Car;
 import hibernate.collections.listAnnotation.Showroom;
 import org.hibernate.Session;
@@ -11,7 +13,9 @@ import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by arcilla on 4/29/16.
@@ -30,7 +34,9 @@ public class SessionManager {
                 .addAnnotatedClass(Showroom.class)
                 .addAnnotatedClass(Car.class)
                 .addAnnotatedClass(Student.class)
-                .addAnnotatedClass(Address.class);
+                .addAnnotatedClass(Address.class)
+                .addAnnotatedClass(Vendor.class)
+                .addAnnotatedClass(Customers.class);
         // Build a Registry with our configuration properties
         ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(
                 config.getProperties()).buildServiceRegistry();
@@ -168,6 +174,32 @@ public class SessionManager {
         ad.setStudent(s);
         // Save the showroom
         session.save(ad);
+        session.getTransaction().commit();
+    }
+
+    public void persistVendor() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        Vendor v=new Vendor();
+        v.setVendorId(100);
+        v.setVendorName("java4s");
+
+        Customers c1=new Customers();
+        c1.setCustomerId(500);
+        c1.setCustomerName("customer1");
+
+        Customers c2=new Customers();
+        c2.setCustomerId(501);
+        c2.setCustomerName("customer2");
+
+        Set s=new HashSet();
+        s.add(c1);
+        s.add(c2);
+
+        v.setCustomers(s);
+        // Save the showroom
+        session.save(v);
         session.getTransaction().commit();
     }
 

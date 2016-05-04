@@ -10,7 +10,7 @@ public class main {
         sm.initSessionFactory();
         System.out.println("Initialized!");
 
-        sm.persistStudent();
+        sm.persistVendor();
 
         System.out.println("Saved!");
     }
