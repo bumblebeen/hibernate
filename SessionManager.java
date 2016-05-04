@@ -1,5 +1,7 @@
 package hibernate;
 
+import hibernate.associations.Address;
+import hibernate.associations.Student;
 import hibernate.collections.listAnnotation.Car;
 import hibernate.collections.listAnnotation.Showroom;
 import org.hibernate.Session;
@@ -26,7 +28,9 @@ public class SessionManager {
                 .addAnnotatedClass(Course2.class)
                 .addAnnotatedClass(CoursePK2.class)
                 .addAnnotatedClass(Showroom.class)
-                .addAnnotatedClass(Car.class);
+                .addAnnotatedClass(Car.class)
+                .addAnnotatedClass(Student.class)
+                .addAnnotatedClass(Address.class);
         // Build a Registry with our configuration properties
         ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(
                 config.getProperties()).buildServiceRegistry();
@@ -147,6 +151,26 @@ public class SessionManager {
         session.save(showroom);
         session.getTransaction().commit();
     }
+
+    public void persistStudent() {
+        Session session = sessionFactory.getCurrentSession();
+        session.beginTransaction();
+
+        Student s = new Student();
+        s.setStudentId(101);
+        s.setStudentName("James");
+        s.setGrp("mpc");
+
+        Address  ad = new Address();
+        ad.setAddressId(1);
+        ad.setPlace("Carolina");
+
+        ad.setStudent(s);
+        // Save the showroom
+        session.save(ad);
+        session.getTransaction().commit();
+    }
+
 
     public void findAll() {
         Session session = sessionFactory.getCurrentSession();
